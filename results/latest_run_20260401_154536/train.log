@@ -1,0 +1,37 @@
+run_dir=results/latest_run_20260401_154536
+device=cuda
+model_total_params=2,863,826 (2.86M)
+model_trainable_params=2,863,826 (2.86M)
+epoch=1 train_loss=1.5021 train_ce_loss=1.3839 train_pcn_energy=1.1821 train_grid_acc=0.25% train_cell_acc=63.09% eval_loss=1.1199 eval_ce_loss=1.1125 eval_pcn_energy=0.0748 eval_grid_acc=0.25% eval_cell_acc=74.70%
+epoch=2 train_loss=1.0729 train_ce_loss=1.0665 train_pcn_energy=0.0639 train_grid_acc=0.75% train_cell_acc=74.96% eval_loss=1.0250 eval_ce_loss=1.0211 eval_pcn_energy=0.0391 eval_grid_acc=0.25% eval_cell_acc=77.05%
+epoch=3 train_loss=0.9871 train_ce_loss=0.9822 train_pcn_energy=0.0488 train_grid_acc=1.25% train_cell_acc=76.54% eval_loss=1.0276 eval_ce_loss=1.0257 eval_pcn_energy=0.0184 eval_grid_acc=0.25% eval_cell_acc=77.31%
+epoch=4 train_loss=0.9797 train_ce_loss=0.9762 train_pcn_energy=0.0344 train_grid_acc=1.00% train_cell_acc=76.32% eval_loss=0.9966 eval_ce_loss=0.9951 eval_pcn_energy=0.0151 eval_grid_acc=0.25% eval_cell_acc=77.30%
+epoch=5 train_loss=0.9636 train_ce_loss=0.9605 train_pcn_energy=0.0310 train_grid_acc=1.00% train_cell_acc=75.81% eval_loss=1.0071 eval_ce_loss=1.0050 eval_pcn_energy=0.0206 eval_grid_acc=0.25% eval_cell_acc=76.08%
+epoch=6 train_loss=0.9527 train_ce_loss=0.9495 train_pcn_energy=0.0319 train_grid_acc=0.75% train_cell_acc=76.08% eval_loss=1.0206 eval_ce_loss=1.0187 eval_pcn_energy=0.0188 eval_grid_acc=0.25% eval_cell_acc=76.60%
+epoch=7 train_loss=0.9283 train_ce_loss=0.9254 train_pcn_energy=0.0294 train_grid_acc=1.25% train_cell_acc=76.34% eval_loss=1.0076 eval_ce_loss=1.0061 eval_pcn_energy=0.0148 eval_grid_acc=0.25% eval_cell_acc=76.99%
+epoch=8 train_loss=0.8877 train_ce_loss=0.8852 train_pcn_energy=0.0254 train_grid_acc=1.25% train_cell_acc=77.01% eval_loss=1.0292 eval_ce_loss=1.0275 eval_pcn_energy=0.0171 eval_grid_acc=0.25% eval_cell_acc=76.69%
+epoch=9 train_loss=0.8641 train_ce_loss=0.8617 train_pcn_energy=0.0238 train_grid_acc=0.50% train_cell_acc=77.23% eval_loss=1.0273 eval_ce_loss=1.0261 eval_pcn_energy=0.0122 eval_grid_acc=0.25% eval_cell_acc=76.72%
+epoch=10 train_loss=0.8462 train_ce_loss=0.8439 train_pcn_energy=0.0231 train_grid_acc=0.75% train_cell_acc=76.81% eval_loss=1.0402 eval_ce_loss=1.0391 eval_pcn_energy=0.0115 eval_grid_acc=0.25% eval_cell_acc=75.72%
+epoch=11 train_loss=0.8796 train_ce_loss=0.8772 train_pcn_energy=0.0239 train_grid_acc=1.00% train_cell_acc=75.52% eval_loss=1.0510 eval_ce_loss=1.0487 eval_pcn_energy=0.0229 eval_grid_acc=0.25% eval_cell_acc=76.19%
+epoch=12 train_loss=0.8371 train_ce_loss=0.8342 train_pcn_energy=0.0281 train_grid_acc=0.50% train_cell_acc=76.81% eval_loss=1.0004 eval_ce_loss=0.9986 eval_pcn_energy=0.0181 eval_grid_acc=0.25% eval_cell_acc=76.72%
+epoch=13 train_loss=0.7917 train_ce_loss=0.7894 train_pcn_energy=0.0231 train_grid_acc=0.75% train_cell_acc=77.46% eval_loss=1.0527 eval_ce_loss=1.0515 eval_pcn_energy=0.0115 eval_grid_acc=0.25% eval_cell_acc=75.39%
+epoch=14 train_loss=0.7578 train_ce_loss=0.7556 train_pcn_energy=0.0217 train_grid_acc=1.00% train_cell_acc=78.18% eval_loss=1.0211 eval_ce_loss=1.0201 eval_pcn_energy=0.0108 eval_grid_acc=0.25% eval_cell_acc=76.17%
+epoch=15 train_loss=0.7756 train_ce_loss=0.7733 train_pcn_energy=0.0229 train_grid_acc=0.25% train_cell_acc=76.98% eval_loss=1.0922 eval_ce_loss=1.0910 eval_pcn_energy=0.0123 eval_grid_acc=0.25% eval_cell_acc=72.94%
+epoch=16 train_loss=0.7492 train_ce_loss=0.7471 train_pcn_energy=0.0211 train_grid_acc=0.75% train_cell_acc=77.95% eval_loss=1.0871 eval_ce_loss=1.0860 eval_pcn_energy=0.0113 eval_grid_acc=0.25% eval_cell_acc=73.51%
+epoch=17 train_loss=0.7346 train_ce_loss=0.7325 train_pcn_energy=0.0208 train_grid_acc=0.25% train_cell_acc=78.17% eval_loss=1.0609 eval_ce_loss=1.0599 eval_pcn_energy=0.0104 eval_grid_acc=0.25% eval_cell_acc=75.63%
+epoch=18 train_loss=0.7055 train_ce_loss=0.7035 train_pcn_energy=0.0201 train_grid_acc=0.25% train_cell_acc=77.94% eval_loss=1.0732 eval_ce_loss=1.0719 eval_pcn_energy=0.0133 eval_grid_acc=0.25% eval_cell_acc=75.22%
+epoch=19 train_loss=0.7209 train_ce_loss=0.7186 train_pcn_energy=0.0226 train_grid_acc=0.25% train_cell_acc=78.04% eval_loss=1.0552 eval_ce_loss=1.0540 eval_pcn_energy=0.0119 eval_grid_acc=0.25% eval_cell_acc=75.24%
+epoch=20 train_loss=0.6778 train_ce_loss=0.6759 train_pcn_energy=0.0192 train_grid_acc=0.50% train_cell_acc=79.00% eval_loss=1.1058 eval_ce_loss=1.1046 eval_pcn_energy=0.0126 eval_grid_acc=0.25% eval_cell_acc=73.74%
+epoch=21 train_loss=0.6940 train_ce_loss=0.6919 train_pcn_energy=0.0216 train_grid_acc=0.75% train_cell_acc=78.05% eval_loss=1.1249 eval_ce_loss=1.1238 eval_pcn_energy=0.0107 eval_grid_acc=0.25% eval_cell_acc=73.41%
+epoch=22 train_loss=0.6544 train_ce_loss=0.6525 train_pcn_energy=0.0195 train_grid_acc=0.50% train_cell_acc=79.58% eval_loss=1.1087 eval_ce_loss=1.1074 eval_pcn_energy=0.0136 eval_grid_acc=0.25% eval_cell_acc=74.85%
+epoch=23 train_loss=0.6694 train_ce_loss=0.6675 train_pcn_energy=0.0190 train_grid_acc=0.50% train_cell_acc=78.77% eval_loss=1.1284 eval_ce_loss=1.1276 eval_pcn_energy=0.0081 eval_grid_acc=0.25% eval_cell_acc=72.77%
+epoch=24 train_loss=0.6614 train_ce_loss=0.6596 train_pcn_energy=0.0179 train_grid_acc=0.50% train_cell_acc=79.18% eval_loss=1.0956 eval_ce_loss=1.0947 eval_pcn_energy=0.0099 eval_grid_acc=0.25% eval_cell_acc=76.10%
+epoch=25 train_loss=0.6381 train_ce_loss=0.6363 train_pcn_energy=0.0173 train_grid_acc=0.50% train_cell_acc=78.94% eval_loss=1.1358 eval_ce_loss=1.1350 eval_pcn_energy=0.0080 eval_grid_acc=0.25% eval_cell_acc=74.22%
+epoch=26 train_loss=0.6368 train_ce_loss=0.6351 train_pcn_energy=0.0172 train_grid_acc=0.25% train_cell_acc=78.90% eval_loss=1.1355 eval_ce_loss=1.1346 eval_pcn_energy=0.0088 eval_grid_acc=0.25% eval_cell_acc=73.11%
+epoch=27 train_loss=0.6013 train_ce_loss=0.5996 train_pcn_energy=0.0172 train_grid_acc=0.75% train_cell_acc=80.46% eval_loss=1.1386 eval_ce_loss=1.1379 eval_pcn_energy=0.0078 eval_grid_acc=0.25% eval_cell_acc=74.88%
+epoch=28 train_loss=0.6220 train_ce_loss=0.6204 train_pcn_energy=0.0162 train_grid_acc=1.00% train_cell_acc=79.49% eval_loss=1.2064 eval_ce_loss=1.2055 eval_pcn_energy=0.0089 eval_grid_acc=0.00% eval_cell_acc=73.54%
+epoch=29 train_loss=0.6014 train_ce_loss=0.5997 train_pcn_energy=0.0174 train_grid_acc=0.25% train_cell_acc=80.36% eval_loss=1.1469 eval_ce_loss=1.1459 eval_pcn_energy=0.0104 eval_grid_acc=0.25% eval_cell_acc=76.33%
+epoch=30 train_loss=0.6014 train_ce_loss=0.5997 train_pcn_energy=0.0166 train_grid_acc=0.50% train_cell_acc=80.64% eval_loss=1.1456 eval_ce_loss=1.1448 eval_pcn_energy=0.0084 eval_grid_acc=0.25% eval_cell_acc=74.92%
+saved_summary=results/latest_run_20260401_154536/summary.json
+saved_best_model=results/latest_run_20260401_154536/model_best.pt
+saved_last_model=results/latest_run_20260401_154536/model_last.pt

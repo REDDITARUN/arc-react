@@ -1,0 +1,42 @@
+{
+  "evaluation": {
+    "all": {
+      "count": 400,
+      "solve_rate": 0.0025,
+      "cell_acc": 0.7911015207562679,
+      "avg_error_cells": 50.825
+    },
+    "same_size": {
+      "count": 270,
+      "solve_rate": 0.0,
+      "cell_acc": 0.8150030563039098,
+      "avg_error_cells": 60.52962962962963
+    },
+    "changed_size": {
+      "count": 130,
+      "solve_rate": 0.007692307692307693,
+      "cell_acc": 0.5559144575629316,
+      "avg_error_cells": 30.66923076923077
+    }
+  },
+  "train": {
+    "all": {
+      "count": 400,
+      "solve_rate": 0.0125,
+      "cell_acc": 0.810537271650576,
+      "avg_error_cells": 26.395
+    },
+    "same_size": {
+      "count": 262,
+      "solve_rate": 0.0,
+      "cell_acc": 0.8400835677643554,
+      "avg_error_cells": 29.50763358778626
+    },
+    "changed_size": {
+      "count": 138,
+      "solve_rate": 0.036231884057971016,
+      "cell_acc": 0.6170414521809807,
+      "avg_error_cells": 20.485507246376812
+    }
+  }
+}

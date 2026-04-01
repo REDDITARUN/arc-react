@@ -6,11 +6,7 @@ __pycache__/
 venv/
 .mplconfig/
 
-results/
 archives/
 
 data/
 ARC-AGI/
-
-*.pt
-*.png

@@ -55,6 +55,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--num-global-tokens", type=int, default=4, help="Global token count.")
     parser.add_argument("--num-rule-tokens", type=int, default=4, help="Final rule token count.")
     parser.add_argument("--dropout", type=float, default=0.1, help="Dropout.")
+    parser.add_argument("--pcn-num-steps", type=int, default=3, help="Number of PCN refinement steps.")
+    parser.add_argument("--pcn-step-size", type=float, default=0.5, help="PCN update step size.")
+    parser.add_argument("--pcn-energy-weight", type=float, default=0.1, help="Weight for PCN energy in total loss.")
+    parser.add_argument("--max-objects", type=int, default=16, help="Max objects per grid.")
+    parser.add_argument("--object-shape-pool", type=int, default=5, help="Adaptive pooled shape size.")
+    parser.add_argument("--num-hypotheses", type=int, default=4, help="Number of competing rule hypotheses.")
     return parser.parse_args()
 
 
@@ -144,9 +150,13 @@ def save_history_csv(path: Path, history: list) -> None:
     fieldnames = [
         "epoch",
         "train_loss",
+        "train_ce_loss",
+        "train_pcn_energy",
         "train_cell_acc",
         "train_grid_acc",
         "eval_loss",
+        "eval_ce_loss",
+        "eval_pcn_energy",
         "eval_cell_acc",
         "eval_grid_acc",
     ]
@@ -220,6 +230,12 @@ def build_model(args: argparse.Namespace) -> ARCModel:
         num_global_tokens=args.num_global_tokens,
         num_rule_tokens=args.num_rule_tokens,
         dropout=args.dropout,
+        pcn_num_steps=args.pcn_num_steps,
+        pcn_step_size=args.pcn_step_size,
+        pcn_energy_weight=args.pcn_energy_weight,
+        max_objects=args.max_objects,
+        object_shape_pool=args.object_shape_pool,
+        num_hypotheses=args.num_hypotheses,
     )
 
 
@@ -264,6 +280,8 @@ def train_one_epoch(model: ARCModel, loader, optimizer, device: torch.device) ->
     total_loss = 0.0
     total_cell_acc = 0.0
     total_grid_acc = 0.0
+    total_ce_loss = 0.0
+    total_pcn_energy = 0.0
 
     for batch in loader:
         batch = move_batch_to_device(batch, device)
@@ -277,12 +295,16 @@ def train_one_epoch(model: ARCModel, loader, optimizer, device: torch.device) ->
 
         total_examples += batch_size
         total_loss += float(loss.detach()) * batch_size
+        total_ce_loss += float(output["ce_loss"].detach()) * batch_size
+        total_pcn_energy += float(output["pcn_energy"].detach()) * batch_size
         total_cell_acc += float(output["cell_acc"].detach()) * batch_size
         total_grid_acc += float(output["grid_acc"].detach()) * batch_size
 
     denominator = max(total_examples, 1)
     return {
         "loss": total_loss / denominator,
+        "ce_loss": total_ce_loss / denominator,
+        "pcn_energy": total_pcn_energy / denominator,
         "cell_acc": total_cell_acc / denominator,
         "grid_acc": total_grid_acc / denominator,
         "num_examples": total_examples,
@@ -297,6 +319,8 @@ def evaluate(model: ARCModel, loader, device: torch.device) -> dict:
     total_loss = 0.0
     total_cell_acc = 0.0
     total_grid_acc = 0.0
+    total_ce_loss = 0.0
+    total_pcn_energy = 0.0
 
     for batch in loader:
         batch = move_batch_to_device(batch, device)
@@ -305,12 +329,16 @@ def evaluate(model: ARCModel, loader, device: torch.device) -> dict:
 
         total_examples += batch_size
         total_loss += float(output["loss"].detach()) * batch_size
+        total_ce_loss += float(output["ce_loss"].detach()) * batch_size
+        total_pcn_energy += float(output["pcn_energy"].detach()) * batch_size
         total_cell_acc += float(output["cell_acc"].detach()) * batch_size
         total_grid_acc += float(output["grid_acc"].detach()) * batch_size
 
     denominator = max(total_examples, 1)
     return {
         "loss": total_loss / denominator,
+        "ce_loss": total_ce_loss / denominator,
+        "pcn_energy": total_pcn_energy / denominator,
         "cell_acc": total_cell_acc / denominator,
         "grid_acc": total_grid_acc / denominator,
         "num_examples": total_examples,
@@ -378,9 +406,13 @@ def main() -> None:
         epoch_record = {
             "epoch": epoch,
             "train_loss": train_metrics["loss"],
+            "train_ce_loss": train_metrics["ce_loss"],
+            "train_pcn_energy": train_metrics["pcn_energy"],
             "train_cell_acc": train_metrics["cell_acc"],
             "train_grid_acc": train_metrics["grid_acc"],
             "eval_loss": eval_metrics["loss"],
+            "eval_ce_loss": eval_metrics["ce_loss"],
+            "eval_pcn_energy": eval_metrics["pcn_energy"],
             "eval_cell_acc": eval_metrics["cell_acc"],
             "eval_grid_acc": eval_metrics["grid_acc"],
         }
@@ -416,9 +448,13 @@ def main() -> None:
             (
                 f"epoch={epoch} "
                 f"train_loss={train_metrics['loss']:.4f} "
+                f"train_ce_loss={train_metrics['ce_loss']:.4f} "
+                f"train_pcn_energy={train_metrics['pcn_energy']:.4f} "
                 f"train_grid_acc={100.0 * train_metrics['grid_acc']:.2f}% "
                 f"train_cell_acc={100.0 * train_metrics['cell_acc']:.2f}% "
                 f"eval_loss={eval_metrics['loss']:.4f} "
+                f"eval_ce_loss={eval_metrics['ce_loss']:.4f} "
+                f"eval_pcn_energy={eval_metrics['pcn_energy']:.4f} "
                 f"eval_grid_acc={100.0 * eval_metrics['grid_acc']:.2f}% "
                 f"eval_cell_acc={100.0 * eval_metrics['cell_acc']:.2f}%"
             ),
@@ -457,6 +493,27 @@ def main() -> None:
         ylabel="Rate",
         output_path=run_dir / "cell_accuracy_curve.png",
     )
+    plot_metric(
+        history,
+        metric_key="pcn_energy",
+        train_label="train PCN energy",
+        eval_label="eval PCN energy",
+        title="Train vs Eval PCN Energy",
+        ylabel="Energy",
+        output_path=run_dir / "pcn_energy_curve.png",
+    )
+
+    plot_metric(
+        history,
+        metric_key="ce_loss",
+        train_label="train CE loss",
+        eval_label="eval CE loss",
+        title="Train vs Eval CE Loss",
+        ylabel="Loss",
+        output_path=run_dir / "ce_loss_curve.png",
+    )
+
+    
     plot_overview(history, run_dir / "overview.png")
 
     log_message(log_path, f"saved_summary={run_dir / 'summary.json'}")

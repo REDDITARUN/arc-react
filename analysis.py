@@ -14,8 +14,6 @@ MPLCONFIGDIR.mkdir(parents=True, exist_ok=True)
 os.environ.setdefault("MPLCONFIGDIR", str(MPLCONFIGDIR))
 os.environ.setdefault("MPLBACKEND", "Agg")
 
-import matplotlib.pyplot as plt
-
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Analyze ARC training runs.")
@@ -36,6 +34,14 @@ def safe_float(value, default=0.0):
 
 def short_run_label(run_name: str) -> str:
     return run_name.replace("latest_run_", "")
+
+
+def maybe_import_matplotlib():
+    try:
+        import matplotlib.pyplot as plt
+    except ModuleNotFoundError:
+        return None
+    return plt
 
 
 def collect_runs(results_dir: Path) -> list:
@@ -65,6 +71,10 @@ def collect_runs(results_dir: Path) -> list:
             "epochs": summary.get("epochs", len(history)),
             "final_train_loss": safe_float(final_metrics.get("train_loss")),
             "final_eval_loss": safe_float(final_metrics.get("eval_loss")),
+            "final_train_ce_loss": safe_float(final_metrics.get("train_ce_loss")),
+            "final_eval_ce_loss": safe_float(final_metrics.get("eval_ce_loss")),
+            "final_train_pcn_energy": safe_float(final_metrics.get("train_pcn_energy")),
+            "final_eval_pcn_energy": safe_float(final_metrics.get("eval_pcn_energy")),
             "final_train_solved_rate": safe_float(final_metrics.get("train_grid_acc")),
             "final_eval_solved_rate": safe_float(final_metrics.get("eval_grid_acc")),
             "final_train_match_rate": safe_float(final_metrics.get("train_cell_acc")),
@@ -92,6 +102,10 @@ def save_summary_files(results_dir: Path, runs: list) -> None:
         "epochs",
         "final_train_loss",
         "final_eval_loss",
+        "final_train_ce_loss",
+        "final_eval_ce_loss",
+        "final_train_pcn_energy",
+        "final_eval_pcn_energy",
         "final_train_solved_pct",
         "final_eval_solved_pct",
         "best_eval_solved_pct",
@@ -114,8 +128,8 @@ def save_summary_files(results_dir: Path, runs: list) -> None:
     lines = []
     lines.append("# Run Summary")
     lines.append("")
-    lines.append("| Run | Epochs | Final Eval Solved % | Best Eval Solved % | Final Eval Match % | Best Eval Match % | Final Eval Loss |")
-    lines.append("| --- | ---: | ---: | ---: | ---: | ---: | ---: |")
+    lines.append("| Run | Epochs | Final Eval Solved % | Best Eval Solved % | Final Eval Match % | Best Eval Match % | Final Eval Loss | Final Eval PCN Energy |")
+    lines.append("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
 
     for row in runs:
         lines.append(
@@ -126,14 +140,15 @@ def save_summary_files(results_dir: Path, runs: list) -> None:
             + f"{row['best_eval_solved_pct']:.2f} | "
             + f"{row['final_eval_match_pct']:.2f} | "
             + f"{row['best_eval_match_pct']:.2f} | "
-            + f"{row['final_eval_loss']:.4f} |"
+            + f"{row['final_eval_loss']:.4f} | "
+            + f"{row['final_eval_pcn_energy']:.4f} |"
         )
 
     with open(results_dir / "run_summary.md", "w") as handle:
         handle.write("\n".join(lines) + "\n")
 
 
-def apply_plot_style() -> None:
+def apply_plot_style(plt) -> None:
     plt.style.use("default")
     plt.rcParams.update(
         {
@@ -155,7 +170,11 @@ def apply_plot_style() -> None:
 
 
 def plot_percentage_graph(results_dir: Path, runs: list, final_key: str, best_key: str, title: str, output_name: str) -> None:
-    apply_plot_style()
+    plt = maybe_import_matplotlib()
+    if plt is None:
+        return
+
+    apply_plot_style(plt)
 
     labels = [run["run_label"] for run in runs]
     x = list(range(len(runs)))
@@ -207,6 +226,46 @@ def plot_percentage_graph(results_dir: Path, runs: list, final_key: str, best_ke
     plt.close(fig)
 
 
+def plot_single_series_graph(results_dir: Path, runs: list, key: str, title: str, ylabel: str, output_name: str) -> None:
+    plt = maybe_import_matplotlib()
+    if plt is None:
+        return
+
+    apply_plot_style(plt)
+
+    labels = [run["run_label"] for run in runs]
+    x = list(range(len(runs)))
+    values = [run[key] for run in runs]
+
+    fig, ax = plt.subplots(figsize=(max(9, len(runs) * 1.6), 5.8))
+    ax.plot(
+        x,
+        values,
+        color="#6f3cc3",
+        linewidth=2.2,
+        marker="o",
+        markersize=7,
+        markerfacecolor="#fffdf9",
+        markeredgewidth=2,
+    )
+    ax.set_title(title, pad=14)
+    ax.set_xlabel("Run", labelpad=12)
+    ax.set_ylabel(ylabel, labelpad=12)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, rotation=28, ha="right")
+    ax.grid(True, axis="y", alpha=0.65)
+    ax.grid(False, axis="x")
+
+    for spine_name in ["top", "right"]:
+        ax.spines[spine_name].set_visible(False)
+    ax.spines["left"].set_color("#c9c1b4")
+    ax.spines["bottom"].set_color("#c9c1b4")
+
+    fig.subplots_adjust(left=0.1, right=0.98, top=0.88, bottom=0.27)
+    fig.savefig(results_dir / output_name, dpi=180)
+    plt.close(fig)
+
+
 def main() -> None:
     args = parse_args()
     results_dir = Path(args.results_dir)
@@ -219,6 +278,7 @@ def main() -> None:
 
     save_summary_files(results_dir, runs)
 
+    matplotlib_available = maybe_import_matplotlib() is not None
     plot_percentage_graph(
         results_dir,
         runs,
@@ -235,6 +295,27 @@ def main() -> None:
         title="Evaluation Solved Percentage Across Runs",
         output_name="eval_solved_percentage_across_runs.png",
     )
+    plot_single_series_graph(
+        results_dir,
+        runs,
+        key="final_eval_loss",
+        title="Final Evaluation Loss Across Runs",
+        ylabel="Loss",
+        output_name="eval_loss_across_runs.png",
+    )
+    if any(run["final_eval_pcn_energy"] != 0.0 for run in runs):
+        plot_single_series_graph(
+            results_dir,
+            runs,
+            key="final_eval_pcn_energy",
+            title="Final Evaluation PCN Energy Across Runs",
+            ylabel="Energy",
+            output_name="eval_pcn_energy_across_runs.png",
+        )
+
+    if not matplotlib_available:
+        print("matplotlib not installed; wrote summary files and skipped plot generation.")
+        return
 
     print(f"Saved run analysis to {results_dir}")
 

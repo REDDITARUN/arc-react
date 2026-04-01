@@ -1,0 +1,28 @@
+{
+  "run_dir": "results/latest_run_20260401_154536",
+  "timestamp": "20260401_154536",
+  "epochs": 30,
+  "data_root": "data",
+  "device": "cuda",
+  "final": {
+    "epoch": 30,
+    "train_loss": 0.6013525682687759,
+    "train_ce_loss": 0.599695137143135,
+    "train_pcn_energy": 0.01657427854835987,
+    "train_cell_acc": 0.8064219164848327,
+    "train_grid_acc": 0.005,
+    "eval_loss": 1.145610225200653,
+    "eval_ce_loss": 1.1447714018821715,
+    "eval_pcn_energy": 0.008388276649639011,
+    "eval_cell_acc": 0.7492374122142792,
+    "eval_grid_acc": 0.0025
+  },
+  "best_eval_loss": {
+    "epoch": 4,
+    "eval_loss": 0.9966444957256317,
+    "eval_cell_acc": 0.7730293548107148,
+    "eval_grid_acc": 0.0025
+  },
+  "best_eval_grid_acc": 0.0025,
+  "best_eval_cell_acc": 0.7731286120414734
+}

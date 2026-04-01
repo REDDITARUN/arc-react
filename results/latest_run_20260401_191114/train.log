@@ -1,0 +1,4 @@
+run_dir=results/latest_run_20260401_191114
+device=cuda
+model_total_params=2,932,179 (2.93M)
+model_trainable_params=2,932,179 (2.93M)

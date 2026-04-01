@@ -1,0 +1,37 @@
+run_dir=results/latest_run_20260401_120412
+device=cuda
+model_total_params=3,453,194 (3.45M)
+model_trainable_params=3,453,194 (3.45M)
+epoch=1 train_loss=1.3965 train_grid_acc=0.25% train_cell_acc=60.92% eval_loss=1.1679 eval_grid_acc=0.50% eval_cell_acc=71.28%
+epoch=2 train_loss=1.0855 train_grid_acc=1.50% train_cell_acc=73.45% eval_loss=1.0323 eval_grid_acc=0.25% eval_cell_acc=75.00%
+epoch=3 train_loss=0.9975 train_grid_acc=1.00% train_cell_acc=75.21% eval_loss=0.9931 eval_grid_acc=0.25% eval_cell_acc=76.62%
+epoch=4 train_loss=0.8957 train_grid_acc=1.25% train_cell_acc=76.53% eval_loss=0.9555 eval_grid_acc=0.25% eval_cell_acc=76.98%
+epoch=5 train_loss=0.9234 train_grid_acc=1.00% train_cell_acc=76.58% eval_loss=0.9500 eval_grid_acc=0.25% eval_cell_acc=76.82%
+epoch=6 train_loss=0.8447 train_grid_acc=0.50% train_cell_acc=78.07% eval_loss=0.9114 eval_grid_acc=0.25% eval_cell_acc=77.70%
+epoch=7 train_loss=0.8563 train_grid_acc=1.00% train_cell_acc=76.82% eval_loss=0.9197 eval_grid_acc=0.25% eval_cell_acc=77.48%
+epoch=8 train_loss=0.8372 train_grid_acc=1.25% train_cell_acc=76.72% eval_loss=0.9122 eval_grid_acc=0.25% eval_cell_acc=76.72%
+epoch=9 train_loss=0.7855 train_grid_acc=1.50% train_cell_acc=78.43% eval_loss=0.9378 eval_grid_acc=0.25% eval_cell_acc=76.62%
+epoch=10 train_loss=0.8150 train_grid_acc=1.75% train_cell_acc=76.21% eval_loss=0.8948 eval_grid_acc=0.25% eval_cell_acc=77.22%
+epoch=11 train_loss=0.7599 train_grid_acc=1.50% train_cell_acc=78.15% eval_loss=0.8867 eval_grid_acc=0.25% eval_cell_acc=77.77%
+epoch=12 train_loss=0.7251 train_grid_acc=1.50% train_cell_acc=78.51% eval_loss=0.9224 eval_grid_acc=0.25% eval_cell_acc=77.37%
+epoch=13 train_loss=0.7053 train_grid_acc=1.00% train_cell_acc=78.75% eval_loss=0.9053 eval_grid_acc=0.25% eval_cell_acc=76.95%
+epoch=14 train_loss=0.7108 train_grid_acc=0.50% train_cell_acc=78.50% eval_loss=0.8824 eval_grid_acc=0.25% eval_cell_acc=77.86%
+epoch=15 train_loss=0.6733 train_grid_acc=1.75% train_cell_acc=79.13% eval_loss=0.9190 eval_grid_acc=0.25% eval_cell_acc=77.30%
+epoch=16 train_loss=0.6599 train_grid_acc=1.50% train_cell_acc=79.54% eval_loss=0.8776 eval_grid_acc=0.25% eval_cell_acc=77.94%
+epoch=17 train_loss=0.6257 train_grid_acc=2.00% train_cell_acc=79.90% eval_loss=0.8978 eval_grid_acc=0.25% eval_cell_acc=77.31%
+epoch=18 train_loss=0.6340 train_grid_acc=0.75% train_cell_acc=79.59% eval_loss=0.9054 eval_grid_acc=0.25% eval_cell_acc=77.19%
+epoch=19 train_loss=0.6310 train_grid_acc=1.00% train_cell_acc=79.91% eval_loss=0.9114 eval_grid_acc=0.50% eval_cell_acc=77.49%
+epoch=20 train_loss=0.5712 train_grid_acc=1.50% train_cell_acc=81.31% eval_loss=0.8928 eval_grid_acc=0.50% eval_cell_acc=77.48%
+epoch=21 train_loss=0.5883 train_grid_acc=1.50% train_cell_acc=80.29% eval_loss=0.8909 eval_grid_acc=0.50% eval_cell_acc=77.49%
+epoch=22 train_loss=0.6059 train_grid_acc=0.75% train_cell_acc=79.38% eval_loss=0.9298 eval_grid_acc=0.25% eval_cell_acc=76.89%
+epoch=23 train_loss=0.5783 train_grid_acc=1.25% train_cell_acc=81.04% eval_loss=0.9173 eval_grid_acc=0.25% eval_cell_acc=76.72%
+epoch=24 train_loss=0.5713 train_grid_acc=1.75% train_cell_acc=80.79% eval_loss=0.9572 eval_grid_acc=0.50% eval_cell_acc=77.29%
+epoch=25 train_loss=0.5794 train_grid_acc=2.00% train_cell_acc=81.04% eval_loss=0.9318 eval_grid_acc=0.50% eval_cell_acc=77.67%
+epoch=26 train_loss=0.5313 train_grid_acc=2.50% train_cell_acc=81.75% eval_loss=0.9629 eval_grid_acc=0.25% eval_cell_acc=77.33%
+epoch=27 train_loss=0.5286 train_grid_acc=1.75% train_cell_acc=81.78% eval_loss=0.9326 eval_grid_acc=0.25% eval_cell_acc=77.19%
+epoch=28 train_loss=0.5317 train_grid_acc=2.25% train_cell_acc=81.16% eval_loss=0.9702 eval_grid_acc=0.25% eval_cell_acc=77.25%
+epoch=29 train_loss=0.5472 train_grid_acc=1.75% train_cell_acc=80.49% eval_loss=0.9563 eval_grid_acc=0.25% eval_cell_acc=76.44%
+epoch=30 train_loss=0.5171 train_grid_acc=1.75% train_cell_acc=82.50% eval_loss=1.0102 eval_grid_acc=0.25% eval_cell_acc=76.35%
+saved_summary=results/latest_run_20260401_120412/summary.json
+saved_best_model=results/latest_run_20260401_120412/model_best.pt
+saved_last_model=results/latest_run_20260401_120412/model_last.pt

@@ -1,0 +1,33 @@
+{
+  "split": "train",
+  "pair_rule_tokens": {
+    "group_count": 27,
+    "token_count": 10,
+    "mean_norm": 11.471152305603027,
+    "std_norm": 0.019425127655267715,
+    "mean_offdiag_cosine": 0.6687793135643005,
+    "std_offdiag_cosine": 0.1899350881576538,
+    "max_offdiag_cosine": 0.9346655607223511,
+    "min_offdiag_cosine": -0.27643057703971863
+  },
+  "global_tokens": {
+    "group_count": 8,
+    "token_count": 10,
+    "mean_norm": 11.178926467895508,
+    "std_norm": 0.27803248167037964,
+    "mean_offdiag_cosine": 0.1697370707988739,
+    "std_offdiag_cosine": 0.14241871237754822,
+    "max_offdiag_cosine": 0.5805723667144775,
+    "min_offdiag_cosine": -0.12779481709003448
+  },
+  "rule_tokens": {
+    "group_count": 8,
+    "token_count": 10,
+    "mean_norm": 11.486885070800781,
+    "std_norm": 0.026232236996293068,
+    "mean_offdiag_cosine": 0.7855852842330933,
+    "std_offdiag_cosine": 0.15805582702159882,
+    "max_offdiag_cosine": 0.9490945339202881,
+    "min_offdiag_cosine": 0.20723649859428406
+  }
+}
