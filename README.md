@@ -85,12 +85,6 @@ On an NVIDIA machine with a CUDA-verified setup, switch to `--device cuda`.
 
 ## Analyze
 
-From the repo root (either works):
-
-```bash
-python3 analysis.py --results-dir results
-```
-
 ```bash
 python3 scripts/analysis.py --results-dir results
 ```

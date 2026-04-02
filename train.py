@@ -2,7 +2,7 @@
 Training entrypoint for ARCModel.
 
 This script:
-- loads ARC task batches via data_loader (shim to scripts.data_loader)
+- loads ARC task batches from scripts.data_loader
 - trains model.ARCModel end to end
 - writes each run into results/latest_run_<timestamp>
 - stores config, checkpoints, logs, epoch stats, and plots
@@ -27,7 +27,7 @@ import torch
 
 from torch.utils.data import DataLoader, Subset
 
-from data_loader import ARCTaskDataset, arc_collate_fn
+from scripts.data_loader import ARCTaskDataset, arc_collate_fn
 from model import ARCModel
 
 

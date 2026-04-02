@@ -18,7 +18,7 @@ def make_safe_padding_mask(valid_mask):
 
     return padding_mask
 
-#  From data_loader.py:138, one sample has:
+#  From scripts/data_loader build_task_sample, one sample has:
 
 #   - example_inputs: [Kmax, 30, 30]
 #   - example_outputs: [Kmax, 30, 30]
@@ -28,7 +28,7 @@ def make_safe_padding_mask(valid_mask):
 #   - query_output: [30, 30]
 #   - example_slot_mask: [Kmax]
 
-#   After collation in data_loader.py:228, a batch is:
+#   After collation in arc_collate_fn, a batch is:
 
 #   - example_inputs: [B, Kmax, 30, 30]
 #   - example_outputs: [B, Kmax, 30, 30]
