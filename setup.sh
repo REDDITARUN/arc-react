@@ -74,11 +74,11 @@ print(f"CUDA is available: {torch.cuda.get_device_name(0)}")
 PY
 fi
 
-if [ ! -d "data/canonical_train/tasks" ]; then
-  echo "Preparing ARC data"
+if [ ! -d "data_arc_agi_1/canonical_train/tasks" ]; then
+  echo "Preparing ARC-AGI-1 data (see scripts/prepare_data.py for options)"
   "${VENV_PYTHON}" scripts/prepare_data.py --workspace .
 else
-  echo "Prepared data already exists, skipping data prep"
+  echo "Prepared data already exists at data_arc_agi_1/, skipping data prep"
 fi
 
 echo ""

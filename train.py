@@ -2,7 +2,7 @@
 Training entrypoint for ARCModel.
 
 This script:
-- loads ARC task batches from data_loader.py
+- loads ARC task batches via data_loader (shim to scripts.data_loader)
 - trains model.ARCModel end to end
 - writes each run into results/latest_run_<timestamp>
 - stores config, checkpoints, logs, epoch stats, and plots
@@ -33,7 +33,12 @@ from model import ARCModel
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train ARCModel.")
-    parser.add_argument("--data-root", default="data", help="Prepared data root.")
+    parser.add_argument("--data-root", default="data_arc_agi_1", help="Prepared data root.")
+    parser.add_argument(
+        "--train-split-name",
+        default="canonical_train",
+        help="Train split folder under data root (e.g. canonical_train or augmented_train).",
+    )
     parser.add_argument("--results-dir", default="results", help="Parent directory for run outputs.")
     parser.add_argument("--batch-size", type=int, default=4, help="Batch size.")
     parser.add_argument("--epochs", type=int, default=10, help="Number of epochs.")
@@ -94,6 +99,7 @@ def build_loaders(args: argparse.Namespace):
         split="train",
         kmax=args.kmax,
         pad_size=args.pad_size,
+        train_split_name=args.train_split_name,
     )
     eval_dataset = ARCTaskDataset(
         data_root=args.data_root,
