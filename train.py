@@ -24,6 +24,7 @@ os.environ.setdefault("MPLBACKEND", "Agg")
 
 import matplotlib.pyplot as plt
 import torch
+from tqdm import tqdm
 
 from torch.utils.data import DataLoader, Subset
 
@@ -66,6 +67,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-objects", type=int, default=16, help="Max objects per grid.")
     parser.add_argument("--object-shape-pool", type=int, default=5, help="Adaptive pooled shape size.")
     parser.add_argument("--num-hypotheses", type=int, default=4, help="Number of competing rule hypotheses.")
+    parser.add_argument("--no-progress", action="store_true", help="Disable tqdm progress bars.")
     return parser.parse_args()
 
 
@@ -279,7 +281,16 @@ def run_smoke_test(model: ARCModel, loader, device: torch.device) -> None:
     print("grid_acc", float(output["grid_acc"].detach()))
 
 
-def train_one_epoch(model: ARCModel, loader, optimizer, device: torch.device) -> dict:
+def train_one_epoch(
+    model: ARCModel,
+    loader,
+    optimizer,
+    device: torch.device,
+    *,
+    epoch: int,
+    total_epochs: int,
+    show_progress: bool,
+) -> dict:
     model.train()
 
     total_examples = 0
@@ -289,7 +300,18 @@ def train_one_epoch(model: ARCModel, loader, optimizer, device: torch.device) ->
     total_ce_loss = 0.0
     total_pcn_energy = 0.0
 
-    for batch in loader:
+    batches = loader
+    if show_progress:
+        batches = tqdm(
+            loader,
+            total=len(loader),
+            desc=f"train {epoch}/{total_epochs}",
+            leave=False,
+            dynamic_ncols=True,
+            unit="batch",
+        )
+
+    for batch in batches:
         batch = move_batch_to_device(batch, device)
         batch_size = int(batch["query_output"].shape[0])
 
@@ -306,6 +328,12 @@ def train_one_epoch(model: ARCModel, loader, optimizer, device: torch.device) ->
         total_cell_acc += float(output["cell_acc"].detach()) * batch_size
         total_grid_acc += float(output["grid_acc"].detach()) * batch_size
 
+        if show_progress:
+            batches.set_postfix(
+                loss=f"{total_loss / max(total_examples, 1):.4f}",
+                g_acc=f"{100.0 * total_grid_acc / max(total_examples, 1):.1f}%",
+            )
+
     denominator = max(total_examples, 1)
     return {
         "loss": total_loss / denominator,
@@ -318,7 +346,15 @@ def train_one_epoch(model: ARCModel, loader, optimizer, device: torch.device) ->
 
 
 @torch.no_grad()
-def evaluate(model: ARCModel, loader, device: torch.device) -> dict:
+def evaluate(
+    model: ARCModel,
+    loader,
+    device: torch.device,
+    *,
+    epoch: int,
+    total_epochs: int,
+    show_progress: bool,
+) -> dict:
     model.eval()
 
     total_examples = 0
@@ -328,7 +364,18 @@ def evaluate(model: ARCModel, loader, device: torch.device) -> dict:
     total_ce_loss = 0.0
     total_pcn_energy = 0.0
 
-    for batch in loader:
+    batches = loader
+    if show_progress:
+        batches = tqdm(
+            loader,
+            total=len(loader),
+            desc=f"eval {epoch}/{total_epochs}",
+            leave=False,
+            dynamic_ncols=True,
+            unit="batch",
+        )
+
+    for batch in batches:
         batch = move_batch_to_device(batch, device)
         batch_size = int(batch["query_output"].shape[0])
         output = model.training_step(batch)
@@ -339,6 +386,12 @@ def evaluate(model: ARCModel, loader, device: torch.device) -> dict:
         total_pcn_energy += float(output["pcn_energy"].detach()) * batch_size
         total_cell_acc += float(output["cell_acc"].detach()) * batch_size
         total_grid_acc += float(output["grid_acc"].detach()) * batch_size
+
+        if show_progress:
+            batches.set_postfix(
+                loss=f"{total_loss / max(total_examples, 1):.4f}",
+                g_acc=f"{100.0 * total_grid_acc / max(total_examples, 1):.1f}%",
+            )
 
     denominator = max(total_examples, 1)
     return {
@@ -405,9 +458,37 @@ def main() -> None:
     best_eval_loss = float("inf")
     best_epoch_record = None
 
-    for epoch in range(1, args.epochs + 1):
-        train_metrics = train_one_epoch(model, train_loader, optimizer, device)
-        eval_metrics = evaluate(model, eval_loader, device)
+    show_progress = not args.no_progress
+    epoch_range = range(1, args.epochs + 1)
+    if show_progress:
+        epoch_range = tqdm(
+            epoch_range,
+            total=args.epochs,
+            desc="epoch",
+            position=0,
+            leave=True,
+            dynamic_ncols=True,
+            unit="ep",
+        )
+
+    for epoch in epoch_range:
+        train_metrics = train_one_epoch(
+            model,
+            train_loader,
+            optimizer,
+            device,
+            epoch=epoch,
+            total_epochs=args.epochs,
+            show_progress=show_progress,
+        )
+        eval_metrics = evaluate(
+            model,
+            eval_loader,
+            device,
+            epoch=epoch,
+            total_epochs=args.epochs,
+            show_progress=show_progress,
+        )
 
         epoch_record = {
             "epoch": epoch,

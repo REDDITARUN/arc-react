@@ -58,7 +58,7 @@ fi
 
 echo "Installing PyTorch from ${TORCH_INDEX_URL}"
 "${VENV_PYTHON}" -m pip install --upgrade --force-reinstall --index-url "${TORCH_INDEX_URL}" torch
-"${VENV_PYTHON}" -m pip install --upgrade matplotlib
+"${VENV_PYTHON}" -m pip install --upgrade matplotlib tqdm
 
 if command -v nvidia-smi >/dev/null 2>&1 && [[ "${TORCH_INDEX_URL}" != *"/cpu" ]]; then
   "${VENV_PYTHON}" - <<'PY'
